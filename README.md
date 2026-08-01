@@ -4,6 +4,13 @@ A web application that helps a therapist keep clinical documentation for the peo
 
 Built with the MERN stack and the Groq API.
 
+Live demo
+
+App: https://YOUR-VERCEL-URL.vercel.app API: https://therapy-management-system-9rz9.onrender.com
+
+
+Note: the backend runs on Render's free tier, which sleeps after inactivity. The first request may take up to a minute while the server wakes up. Every request after that is fast.
+
 What it does
 
 A therapist logs in, creates a named entry for each person they are treating, and writes a free-text session note after each session. Notes accumulate over time.
@@ -33,16 +40,29 @@ Backend	Node.js, Express 4
 Database	MongoDB Atlas with Mongoose 8
 Auth	JWT with bcrypt password hashing
 AI	Groq API, reached through a single adapter file
-Running the project
+Hosting	Vercel (frontend), Render (backend), Atlas (database)
+How to try it
+Open the live app and log in with the credentials above
+Click Ravi Kumar in the appointment list
+Scroll down — you will see the existing session notes, the approved AI summary with its mood rating and themes, and the progress report
+Write a new session note (at least 20 characters) and click Save note
+The AI Level 1 section now shows 1 note waiting to be summarised. Click Generate summary
+A new summary appears marked Pending, showing which notes it was built from — only the new one, because the earlier notes were already used
+Click Approve — the badge turns green
+Click Generate progress report — the new report is built from both approved summaries
 
-You need Node.js 18 or later installed.
+Step 6 is the point worth watching: notes are consumed in batches and marked as used, so generating again never re-summarises the same notes twice.
+
+Running it locally
+
+You need Node.js 18 or later.
 
 1. Backend
 bash
 cd Backend
 npm install
 
-Create a file called .env in the Backend folder. Copy .env.example and fill in the values:
+Create a .env file in the Backend folder. Copy .env.example and fill in the values:
 
 PORT=5000
 MONGO_URI=your_mongodb_atlas_connection_string
@@ -69,31 +89,13 @@ npm run dev
 
 Open http://localhost:5173
 
-Both terminals need to stay running.
+Both terminals need to stay running. With no VITE_API_URL set, the frontend automatically points at http://localhost:5000/api.
 
 Where to get the keys
 
 MongoDB Atlas — free account at mongodb.com/cloud/atlas. Create a free M0 cluster, add a database user, then under Network Access click Add IP Address → Allow Access From Anywhere. Copy the connection string from Connect → Drivers and add your database name before the ?.
 
 Groq — free API key at console.groq.com under API Keys.
-
-Demo credentials
-
-An account is already set up with sample data — a person named Ravi Kumar with several session notes, an approved AI summary, and a generated progress report.
-
-Email:     anita@clinic.com
-Password:  test1234
-How to try it
-Log in with the credentials above
-Click Ravi Kumar in the appointment list
-Scroll down — you will see the existing session notes, the approved AI summary with its mood rating and themes, and the progress report
-Write a new session note (at least 20 characters) and click Save note
-The AI Level 1 section now shows 1 note waiting to be summarised. Click Generate summary
-A new summary appears marked Pending, showing which notes it was built from — only the new one, because the earlier notes were already used
-Click Approve — the badge turns green
-Click Generate progress report — the new report is built from both approved summaries
-
-Step 6 is the point worth watching: notes are consumed in batches and marked as used, so generating again never re-summarises the same notes twice.
 
 API endpoints
 
@@ -154,6 +156,8 @@ The AI provider sits behind one adapter. ai/aiAdapter.js is the only file that k
 Structured JSON from the model. The adapter requests response_format: json_object and the system prompt specifies the exact keys required, so the AI's output maps directly onto the Mongoose schema without a translation step. Temperature is set low (0.3) for consistency rather than creativity.
 
 Soft deletes, not hard deletes. Closing an appointment sets its status to Closed rather than removing it. Clinical records should stay intact and auditable, and the action is reversible. The endpoint is a PATCH on the status field rather than a DELETE, because nothing is actually removed.
+
+Separate hosting for frontend and backend. A React build is static files, which suits a CDN — hence Vercel. An Express server is a long-running process holding a database connection, which needs a container — hence Render. The frontend reads its API address from VITE_API_URL at build time and falls back to localhost, so the same code runs in both environments.
 
 Notes
 .env is not committed. Use .env.example as a template.
