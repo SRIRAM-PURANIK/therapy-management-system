@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --ink: #12211f;
+  --ink-soft: #5b6b68;
+  --teal: #0f5257;
+  --teal-deep: #0a3b3f;
+  --teal-mist: #e4efee;
+  --cream: #faf7f2;
+  --line: #ddd6cc;
+  --amber: #b8630f;
+  --amber-bg: #fdf0e0;
+  --green: #14653f;
+  --green-bg: #dcf0e5;
+  --red: #a8341f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--cream);
+  background-image: radial-gradient(
+      circle at 12% 8%,
+      rgba(15, 82, 87, 0.06),
+      transparent 45%
+    ),
+    radial-gradient(circle at 88% 92%, rgba(184, 99, 15, 0.05), transparent 45%);
+  background-attachment: fixed;
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.center-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 44px 20px 80px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(18, 33, 31, 0.04);
+}
+
+.card.narrow {
+  width: 100%;
+  max-width: 410px;
+  padding: 36px 32px;
+  border-top: 3px solid var(--teal);
+}
+
+h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-bottom: 3px;
+}
+
+h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal-deep);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.subtitle {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-bottom: 26px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 13px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 14.5px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--ink);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.65;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a8b0ae;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(15, 82, 87, 0.1);
+}
+
+button {
+  background: var(--teal);
+  color: #fff;
+  border: 1px solid var(--teal);
+  padding: 11px 20px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--teal-deep);
+  border-color: var(--teal-deep);
+}
+
+button:disabled {
+  background: #b7c2c0;
+  border-color: #b7c2c0;
+  cursor: not-allowed;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--teal);
+  border: 1px solid var(--line);
+}
+
+button.secondary:hover:not(:disabled) {
+  background: var(--teal-mist);
+  border-color: var(--teal);
+}
+
+.error {
+  color: var(--red);
+  font-size: 13.5px;
+  margin-bottom: 13px;
+  padding-left: 11px;
+  border-left: 2px solid var(--red);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.list-item {
+  padding: 15px 14px;
+  margin: 0 -14px;
+  border-bottom: 1px solid #f0ebe3;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.13s;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item:hover {
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+}
+
+.muted {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge.pending {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.badge.approved {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.tag {
+  display: inline-block;
+  background: var(--teal-mist);
+  color: var(--teal-deep);
+  padding: 4px 11px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  margin: 0 7px 7px 0;
+}
+
+.note {
+  background: #fdfcfa;
+  border: 1px solid #ece6dc;
+  border-left: 3px solid var(--teal);
+  padding: 16px 18px;
+  border-radius: 0 3px 3px 0;
+  margin-bottom: 13px;
+  font-size: 14.5px;
+}
+
+ul.plain {
+  list-style: none;
+  margin: 7px 0 14px;
+}
+
+ul.plain li {
+  padding: 4px 0 4px 18px;
+  position: relative;
+  font-size: 14px;
+}
+
+ul.plain li:before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+}
+
+a {
+  color: var(--teal);
+  text-decoration-color: rgba(15, 82, 87, 0.35);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--teal-deep);
+}

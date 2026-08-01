@@ -49,4 +49,24 @@ const getAppointmentById = async (req, res) => {
   }
 };
 
-module.exports = { createAppointment, getAppointments, getAppointmentById };
+const closeAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findOne({
+      _id: req.params.id,
+      therapist: req.therapist._id,
+    });
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    appointment.status = appointment.status === "Active" ? "Closed" : "Active";
+    await appointment.save();
+
+    res.status(200).json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createAppointment, getAppointments, getAppointmentById, closeAppointment};
